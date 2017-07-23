@@ -21,6 +21,6 @@ def send(from_addr, to_addr, msg):
 
 if __name__ == '__main__':
     from_addr = 'root@localhost'
-    to_addr = 'f91seed@yahoo.co.jp'
+    to_addr = 'example@sample.com'
     msg = create_message(from_addr, to_addr, 'test subject', 'test body')
     send(from_addr, to_addr, msg)
