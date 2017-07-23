@@ -2,10 +2,10 @@ import smtplib
 from email.mime.text import MIMEText
 
 class sendGmail:
-    username, password = 'f91seed@gmail.com', 'XXXXX'
+    username, password = 'sample@yahoo.co.jp', 'XXXXX'
 
     def __init__(self, to, sub, body):
-        host, port = 'smtp.gmail.com', 465
+        host, port = 'smtp.mail.yahoo.co.jp', 465
         msg = MIMEText(body)
         msg['Subject'] = sub
         msg['From'] = self.username
@@ -20,7 +20,7 @@ class sendGmail:
         smtp.quit()
 
 if __name__ == '__main__':
-    to = 'f91seed@yahoo.co.jp'
+    to = 'example@gmail.com'
     sub = 'Python smtplib'
     body = 'Hello, Python'
     sendGmail(to, sub, body)
