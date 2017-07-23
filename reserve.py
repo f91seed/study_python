@@ -61,7 +61,7 @@ def regist_userid(user_id):
     return flask.Response(response_body, mimetype='application/json')
 
 @app.route('/beaconInformationSend/<string:user_id>', methods=['POST'])
-def beacon_information_send(user_id):
+def beacon_information_send(user_id, visit_date, visit_time):
     '''
     この関数は、/beaconInformationSend/<user_id>リクエストに対する処理を行う。
     現在は、適当な文字列をprintし、successメッセージを返す。
@@ -71,6 +71,26 @@ def beacon_information_send(user_id):
     print('beacon catch! userID:' + user_id)
     response_body = json.dumps({"message": "success"})
     logger.info("Reserve Server Beacon Information Send Success")
+
+    # メール送信用にDB情報を取得
+    user_id_info_table = inifile.get('database', 'user_id_info_table')
+    reserve_info = inifile.get('database', 'reserve_info')
+
+    # ビーコン検知日時と来訪日時を比較
+    request_select_maile_send = flask.g.db.execute
+    ('SELECT * ,' +
+     reserve_info.start_time -  visit_time <= 2 +
+     'FROM ' + user_id_info_table +
+     'INNER JOIN' + reserve_info +
+     'ON' + user_id_info_table.visitor_info_login_id + '=' + reserve_info.visitor_info_login_id +
+     'WHERE' + user_id_info_table.visitor_info_login_id + '=' + user_id +
+     'AND' + reserve_info.visit_date + '=' + visit_date
+     )
+
+    #合致するのがあった場合は、人名と予定日時を入れたメールをDBから取得してメール送信
+
+
+
     return flask.Response(response_body, mimetype='application/json')
 
 @app.route('/v1/user/login', methods=['POST'])

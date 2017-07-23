@@ -1,6 +1,11 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.utils import formatdate
+import configparser
+
+# コンフィグファイルのロード
+inifile = configparser.ConfigParser()
+inifile.read('./config.ini')
 
 def create_message(from_addr, to_addr, subject, body):
     msg = MIMEText(body)
@@ -20,7 +25,8 @@ def send(from_addr, to_addr, msg):
     s.close()
 
 if __name__ == '__main__':
-    from_addr = 'root@localhost'
-    to_addr = 'example@sample.com'
+    # メイン処理(メール送るときに内部処理としてこれを書く)
+    from_addr = inifile.get('mail', 'from_addr')
+    to_addr = inifile.get('mail', 'to_addr')
     msg = create_message(from_addr, to_addr, 'test subject', 'test body')
     send(from_addr, to_addr, msg)
