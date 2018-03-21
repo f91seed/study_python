@@ -2,6 +2,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.utils import formatdate
 import configparser
+from email.mime.text import MIMEText
 
 class sendGmail:
     username, password = 'sample@yahoo.co.jp', 'XXXXX'
@@ -14,6 +15,7 @@ class sendGmail:
         msg['To'] = to
         msg['Date'] = formatdate()
         # コンフリクト検証
+        #conflict
 
         smtp = smtplib.SMTP_SSL(host, port)
         smtp.ehlo()
